@@ -1,0 +1,13 @@
+Bob's Math
+What is 2+2?
+4
+What is 4 squared?
+16
+What is 45-9?
+3
+Write "True" or "False" for this: a matrix always has linear dependent columns.
+False
+What is the derivative of x?
+1
+How many degrees are in a triangle?
+180
