@@ -22,6 +22,7 @@ using namespace std;
 
 int Mathematics::Menu()
 {
+    // showing the user what they need to do
 
     cout << "++++++++++++++++++++++++++++++++++++++++++++" << endl;
     cout << "THE MATTHEW STRONG MATH PROGRAM VERSION 1.0" << endl;
@@ -63,6 +64,9 @@ int Mathematics::Menu()
     cin >> entry;
     if (entry == "yes")
     {
+        // the user enters in the entry, if it is yes, then they can enter the filename of the saved progress
+        // it will be a text file
+        
         cout << "Alright, now enter the filename of your saved progress." << endl;
         cout << "For example, write 'progress.txt'." << endl;
         string file;
