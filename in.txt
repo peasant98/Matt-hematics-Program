@@ -1,7 +1,11 @@
+Below is what an example might be for the running of the program; each person has a corresponding score below.
+Every time we run a new option, like Multiplication, at the end of the method, the scores for everyone are saved onto 
+a text file.
+Here, Andy has 6 points, Matt has 7 points, and so on.
 Andy
 6
 Matt
-6
+7
 Bob
 43
 Steve
