@@ -1,3 +1,7 @@
+Below is an example of a required text file that the user would have to put in so that the questions and answers for "Bob's Math", an 
+award winning textbook, are entered into the database (vectors with the information). We have the title, followed by a Question-Answer pattern. Everything here is a string. 
+
+
 Bob's Math
 What is 2+2?
 4
