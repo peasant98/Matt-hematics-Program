@@ -1022,6 +1022,7 @@ void Mathematics::Import()
     cout << "To clarify, there is a specific format for each text file submitted to this part of the program." << endl;
     cout << "All of the questions and answers will be stored in a database and saved at the end of the running" << endl;
     cout << "Of this function." << endl;
+    // clarifying the right format for a text file in the Import Method
 
     cout << "Here is what a sample text file should look like," << endl;
     cout << "Otherwise, the program will not run as desired." << endl;
@@ -1039,6 +1040,7 @@ void Mathematics::Import()
     cout << "As you can see, this is necessary format. The first line is the title" << endl;
     cout << "For the other lines, they alternate with the question, followed by the answer." << endl;
     cout << "Now, please enter in the text file that you wish to put inside the database." << endl;
+    // the user user enters the file and I use ifstream so that the file can be opened
     string filename;
     cin >> filename;
     cout << "We will now see if we can retrieve this file." << endl;
@@ -1049,6 +1051,7 @@ void Mathematics::Import()
     {
         int linem = 0;
         getline(myfile, line);
+        // reads the first line and puts it into the books vector before encountering any questions or answers
         Books.push_back(line);
         cout << "It looks like that the title of this book is " << line << "." << endl;
         while (! myfile.eof())
@@ -1056,11 +1059,15 @@ void Mathematics::Import()
             getline(myfile, line);
             if (linem %2 == 0)
             {
+                // if the line is divisible by 2, then we are at a question, so the line, or question is added to the questions
+                // vector
+                
                 Questions.push_back(line);
             }
             else if (linem %2 == 1)
             {
                 Answers.push_back(line);
+                // otherwise adding the answer line
             }
             linem = linem +1;
 
@@ -1068,10 +1075,12 @@ void Mathematics::Import()
         cout << "We were successful in putting the questions and the answers into the database." << endl;
         cout << "Now to send you back to the menu." << endl;
         Menu();
+        //going to menu if file is open
 
     }
     else
     {
+        // if file does not open
         cout << "We were not able to retrieve the file." << endl;
         cout << "Please try again." << endl;
 
@@ -1106,6 +1115,8 @@ void Mathematics::Stats()
             {
                 if (user == Names[i])
                 {
+                    // looks up for the user based on what the person types in
+                    // outputs the user and their score
                     cout << "User found" << endl;
                     int scoreindex = i;
                     int scorer;
@@ -1118,6 +1129,7 @@ void Mathematics::Stats()
             }
             if (found == false)
             {
+                // if the user is not found, no scores or anything data-wise can be displayed
                 cout << "We were not able to found this user; they have" << endl;
                 cout << "Not been entered in the database." << endl;
                 cout << "We would recommend going to another aspect of the program" << endl;
@@ -1131,6 +1143,7 @@ void Mathematics::Stats()
         }
         else if (answer == 2)
         {
+            // leaderboard for all the users
             cout << "Here are all of the users ranked so far." << endl;
             vector<string> Namer;
             vector<int> Scorer;
@@ -1138,6 +1151,7 @@ void Mathematics::Stats()
             {
                 Namer.push_back(Names[i]);
                 Scorer.push_back(Scores[i]);
+                // creates copies of name and score vectors
             }
             int fix;
             string change;
@@ -1147,6 +1161,7 @@ void Mathematics::Stats()
                 {
                     if (Namer[z] < Namer[z+1])
                     {
+                        // bubble sort to sort the name and score vectors
                         fix = Scorer[z+1];
                         Scorer[z+1] = Scorer[z];
                         Scorer[z] = fix;
@@ -1160,6 +1175,7 @@ void Mathematics::Stats()
             int n =1;
             for (int c = 0; c<Namer.size(); c++)
             {
+                // this way, the highest values are at the front, so we can display it leaderboard style
                 cout << n << ". " << Namer[c] << ": " << Scorer[c] << endl;
                 n = n +1;
             }
@@ -1171,6 +1187,7 @@ void Mathematics::Stats()
         }
         else
         {
+            // if valid choice not selected, not 1 or 2
             cout << "Valid choice not selected, try again." << endl;
         }
 
@@ -1178,10 +1195,12 @@ void Mathematics::Stats()
     cout << "Now, you will be taken to the main menu. Hopefully, " << endl;
     cout << "This section was helpful for you!" << endl;
     Menu();
+    // going back to the menu
 
 }
 
-
+// method that is similar to the import method in the sense that it takes all of the questions from the
+// the question and answer vectors and asks these questions to users
 void Mathematics::Testing()
 {
     cout << "Time to test your true skills with the questions from the " << endl;
@@ -1200,6 +1219,7 @@ void Mathematics::Testing()
     cin >> person;
     cout << "" << endl;
     int index;
+    // looking up or creating new user
     bool found = false;
     for (int i =0; i<Names.size(); i++)
     {
@@ -1229,23 +1249,30 @@ void Mathematics::Testing()
     srand(time(NULL));
     for (int b=0; b<amount; b++)
     {
+        // this random number is based on a random index in the questions vector
+        
         int rando;
         rando = rand() % (int(Questions.size()));
         cout  << Questions[rando] << endl;
+        // asks  random question
         cout << "This question is for TWO points!" << endl;
         cout << "Please enter in your answer in correct English format." << endl;
         cout << "My answer is: " << endl;
+        // asks for user's answer
         string ans;
         cin >> ans;
+        // if answer is same as the answer to that random question
         if (ans == Answers[rando])
         {
             cout << "Impressive! You got it right! That's 2 points for you!" << endl;
+            // two points
             Scores[index] = Scores[index] + 2;
             score = score +2;
 
         }
         else
         {
+            // ... or no points
             cout << "That is incorrect. Sorry, " << person << "." << endl;
 
         }
@@ -1262,6 +1289,7 @@ void Mathematics::Testing()
     cout << "All of the scores will be saved onto a text file, so that you can reload progress" << endl;
     cout << "Whenever you want." << endl;
     cout << "First write a file to write your saved progress to: " << endl;
+    // saving progress, as with the other methods in the Mathematics class
     string file;
     cin >> file;
     ofstream myfile;
@@ -1291,4 +1319,7 @@ void Mathematics::Testing()
 
 
 }
+
+// That is all 
+// BAC
 
