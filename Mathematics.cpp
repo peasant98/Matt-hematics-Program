@@ -74,13 +74,19 @@ int Mathematics::Menu()
         ifstream myfile;
         myfile.open(file);
         string line;
+        // opening a file with ifstream.
         if (myfile.is_open())
         {
+            // if the file is open, set the amount of lines equal to 0; and get each line.
             int linet;
             linet = 0;
             cout << "The file successfully opened." << endl;
             while (!myfile.eof())
             {
+                // if the linet variable is divisible by 2, then that means that we are importing a name, so we push back 
+                // the line into the Names vector, or the database.
+                // Otherwise, we have the line as a score, so we convert that to an int,
+                // and put that into the other part of the database, the scores vector.
                 getline(myfile, line);
                 if (linet %2 == 0)
                 {
@@ -98,20 +104,25 @@ int Mathematics::Menu()
         }
         else
         {
+            // outputs these statements if the file does not open.
             cout << "Uh oh, it looks like the file did not open." << endl;
             cout << "We will now move on." << endl;
         }
     }
     else
     {
+        // that happens if the user does not say "yes" when asked about if they want to load saved progress.
         cout << "No need to enter in any files." << endl;
         cout << "" << endl;
     }
 
     int choice = 0;
+    // now the user must choose the option in the program.
 
     while(choice == 0)
     {
+        // while the choice is 0, the loops keeps iterating. 
+        // The user enters in the number, and I use a switch statement here to select each option
         int number = 0;
         cout << "Now please enter the option you would like with the program." << endl;
         cin >> number;
@@ -122,6 +133,8 @@ int Mathematics::Menu()
                 cout << "Multiplication Practice Selected." << endl;
 
                 choice = 1;
+                // this break only breaks out of the switch statement, so we need to change the choice to break
+                // out of the while loop.
                 break;
             }
 
@@ -189,6 +202,7 @@ int Mathematics::Menu()
         }
     }
     cout << "Here we go!" << endl;
+    // based on choice goes to different methods of the class
     if (choice == 1)
     {
         Multiplication();
@@ -226,6 +240,7 @@ int Mathematics::Menu()
     }
     else if (choice == 8)
     {
+        // this is the exit choice, will end the program
         cout << "Bye!" << endl;
         return 0;
 
@@ -244,7 +259,7 @@ int Mathematics::Menu()
 
 }
 
-
+// constructor
 Mathematics::Mathematics()
 {
     cout << "New object successfully created!" << endl;
@@ -254,7 +269,7 @@ Mathematics::Mathematics()
 }
 
 
-
+// percent test
 void Mathematics::Percents()
 {
     cout << "This is the bonus part of this program." << endl;
@@ -264,23 +279,30 @@ void Mathematics::Percents()
     cout << "How many questions would you like to have?" << endl;
     int amount;
     cin >> amount;
+    // asks for user's amount
     cout << "Good choice, you choose " << amount << " questions. Good luck!" << endl;
     cout << "First however, enter in the name of the person that is doing these questions." << endl;
     cout << "If the person cannot be found, that means that this person is new, and as such, " << endl;
     cout << "Will be entered in the database." << endl;
+    
     string person;
     cin >> person;
+    // user writes in person's name
     cout << "" << endl;
+    // index is the index of the current user
+    
     int index;
     bool found = false;
     for (int i =0; i<int(Names.size()); i++)
     {
+        // looping through the vector of Names, looking for the person entered in by the user.
         if (Names[i] == person)
         {
             cout << "Success! Person found in database!" << endl;
             cout << "No more needs to be done." << endl;
             index = i;
             found = true;
+            // breaks the for loop if the person is found.
             break;
         }
     }
@@ -291,39 +313,53 @@ void Mathematics::Percents()
         Names.push_back(person);
         Scores.push_back(0);
         index = int(Names.size())-1;
+        // puts the new person into vectors, along with the starting score of 0
+        // the index is the end of the vector, which is the size - 1.
         cout << person << " was successfully added to the database." << endl;
         cout << "Also, the default score for " << person << " is 0." << endl;
     }
     cout << "Alright, " << person << " the legend, here we go." << endl;
     int score = 0;
+    // random seed
     srand(time(NULL));
     for (int i=0; i<amount; i++)
     {
         int rando;
         rando = rand() % 101;
+        //random number between 0 and 100
         int sando;
-        sando = rand() % 1000;
+        sando = rand() % 1001;
+        // random number between 0 and 999
         float percent;
         percent = rando / 100.0;
+        // percent is rando divided by 100
         float answer = sando * percent;
+        // answer can be found by multiplying sando by percent
         cout << "What is " << rando << " percent of " << sando << "?" << endl;
         float result;
         cin >> result;
+        // user enters their answer
         if (result == answer)
         {
+            // if the actual answer and user's answer match, points are given
             cout << "Very impressive, getting the right answer" << endl;
             cout << "Takes a lot of strong math and attention to detail." << endl;
             cout << "You have earned 4 points!" << endl;
+            // increases the score for the round and the overall score in the score vector at the user's 
+            // specific index by 4
             Scores[index] = Scores[index] + 4;
             score = score +4;
         }
         else
         {
+            // no points given
             cout << "We are sorry, that was not correct. Good try though." << endl;
         }
 
 
     }
+    
+    // displays score
     cout << "Alright, " << person << ", your score for this round was " << score << " points." << endl;
     cout << "You survived the madness of percents!" << endl;
     cout << "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" << endl;
@@ -336,8 +372,10 @@ void Mathematics::Percents()
     cout << "First write a file to write your saved progress to: " << endl;
     string file;
     cin >> file;
+    // ofstream where a user enters a file, text file, to save their progress to.
     ofstream myfile;
     myfile.open(file);
+    // if the text file can be opened, we write all of the scores and user names to a file, every user
     if (myfile.is_open())
     {
         for (int z=0; z< int(Names.size()); z++)
@@ -350,6 +388,7 @@ void Mathematics::Percents()
     }
     else
     {
+        // if file is not found, progress will not be saved for later
         cout << "File was not able to open, we are sorry." << endl;
         cout << "Progress was not saved." << endl;
 
@@ -357,6 +396,8 @@ void Mathematics::Percents()
 
 
     cout << "Now, you will be sent back to the loading screen." << endl;
+    // VERY important below: going to menu function so user can choose whatever they want, every method has this,
+    // so that a user could play for as long as they want.
     Menu();
 
 
@@ -366,9 +407,10 @@ void Mathematics::Percents()
 
 }
 
-
+// multiplies random numbers between 0 and 12.
 void Mathematics::Multiplication()
 {
+    //same methods as the other methods at the beginning
     cout << "How many questions would you like to have?" << endl;
     int amount;
     cin >> amount;
@@ -405,17 +447,21 @@ void Mathematics::Multiplication()
     cout << "Alright, " << person << " the legend, here we go." << endl;
     int score = 0;
     srand(time(NULL));
+    // random seed
 
 
     for (int b=0; b<amount; b++)
     {
         int rando;
         rando = rand() % 13;
+        // number between 0 and 12
         int first = rando;
         rando = rand() % 13;
+        // another number between 0 and 12
         int second = rando;
         int answer;
         answer = first * second;
+        // answer is just the first value times the second value
         cout << "What is " << first << " times " << second << "?" << endl;
         int result;
         cin >> result;
@@ -424,6 +470,7 @@ void Mathematics::Multiplication()
             cout << "Great job, correct!" << endl;
             if (answer >=100)
             {
+                // harder question yields 2 points for a correct answer
                 cout << "Because this was a harder question, 2 points will be added." << endl;
                 Scores[index] = Scores[index] + 2;
                 score = score +2;
@@ -445,6 +492,7 @@ void Mathematics::Multiplication()
     cout << "All of the scores will be saved onto a text file, so that you can reload progress" << endl;
     cout << "Whenever you want." << endl;
     cout << "First write a file to write your saved progress to: " << endl;
+    // file to save progress for later
     string file;
     cin >> file;
     ofstream myfile;
@@ -477,7 +525,7 @@ void Mathematics::Multiplication()
 
 }
 
-
+// divides two values
 void Mathematics::Division()
 {
     cout << "How many questions would you like to have?" << endl;
@@ -519,11 +567,17 @@ void Mathematics::Division()
     for (int b=0; b<amount; b++)
     {
         int rando;
+        // random value between 0 and 12
         rando = rand() % 13;
+        // to avoid confusing division by 0
+        rando = rando +1;
         int first = rando;
         rando = rand() % 13;
+        
+        // random value between 0 and 12
         int second = rando;
         int answer;
+        // answer is first times second, so divisor is second if I ask for answer divided by first.
         answer = first * second;
         int divisor = second;
         cout << "What is " << answer << " divided by " << first << "?" << endl;
@@ -534,6 +588,7 @@ void Mathematics::Division()
             cout << "Great job, correct!" << endl;
             if (divisor >=10)
             {
+                // if answer is hard, more points given
                 cout << "Because this was a harder question, 2 points will be added." << endl;
                 Scores[index] = Scores[index] + 2;
                 score = score +2;
@@ -548,6 +603,7 @@ void Mathematics::Division()
         }
         else
         {
+            // wrong answer gives no points
             cout << "Sorry, but the answer was not correct." << endl;
         }
 
@@ -562,6 +618,7 @@ void Mathematics::Division()
     cin >> file;
     ofstream myfile;
     myfile.open(file);
+    // saving progress onto file
     if (myfile.is_open())
     {
         for (int z=0; z< int(Names.size()); z++)
@@ -583,6 +640,7 @@ void Mathematics::Division()
 
 
     cout << "Now, you will be sent back to the loading screen." << endl;
+    // goes onto file
     Menu();
 
 
@@ -590,7 +648,7 @@ void Mathematics::Division()
 
 }
 
-
+// adds two random values
 void Mathematics::Addition()
 {
     cout << "How many questions would you like to have?" << endl;
@@ -632,6 +690,7 @@ void Mathematics::Addition()
     srand(time(NULL));
     for (int b=0; b<amount; b++)
     {
+        // random value between 0 and 100
         int rando;
         rando = rand() % 101;
         int first = rando;
@@ -647,6 +706,7 @@ void Mathematics::Addition()
             cout << "Great job, correct!" << endl;
             if (answer >=100)
             {
+                // if the answer is hard and the user gets it right, more points are awarded
                 cout << "Because this was a harder question, 2 points will be added." << endl;
                 Scores[index] = Scores[index] + 2;
                 score = score +2;
@@ -654,6 +714,7 @@ void Mathematics::Addition()
             }
             else
             {
+                // easier question answered correctly yields 1 point
                 cout << "One point will be added" << endl;
                 Scores[index] = Scores[index] + 1;
                 score = score + 1;
@@ -707,6 +768,8 @@ void Mathematics::Addition()
 
 }
 
+
+// subtracts two random values, is harder than addition
 
 void Mathematics::Subtraction()
 {
@@ -748,6 +811,7 @@ void Mathematics::Subtraction()
     srand(time(NULL));
     for (int b=0; b<amount; b++)
     {
+        // random values between 0 and 100
         int rando;
         rando = rand() % 101;
         int first = rando;
@@ -763,6 +827,7 @@ void Mathematics::Subtraction()
             cout << "Great job, correct!" << endl;
             if (answer >=20)
             {
+                // harder answer answered correctly gives 2 points
                 cout << "Because this was a harder question, 2 points will be added." << endl;
                 Scores[index] = Scores[index] + 2;
                 score = score +2;
@@ -770,6 +835,7 @@ void Mathematics::Subtraction()
             }
             else
             {
+                // else, one point is given
                 cout << "One point will be added" << endl;
                 Scores[index] = Scores[index] + 1;
                 score = score + 1;
@@ -777,6 +843,7 @@ void Mathematics::Subtraction()
         }
         else
         {
+            // or wrong answer leads to points
             cout << "Sorry, but the answer was not correct." << endl;
         }
 
@@ -792,6 +859,7 @@ void Mathematics::Subtraction()
     cin >> file;
     ofstream myfile;
     myfile.open(file);
+    // saves progress
     if (myfile.is_open())
     {
         for (int z=0; z< int(Names.size()); z++)
@@ -821,6 +889,7 @@ void Mathematics::Subtraction()
 
 }
 
+// one of the hardest - factorials!
 
 void Mathematics::Factorials()
 {
@@ -864,11 +933,15 @@ void Mathematics::Factorials()
     {
         int rando;
         rando = rand() % 11;
+        // random value between 0 and 10
+        // adds one 
         rando = rando +1;
         int answer = 1;
         for (int i=1; i<=rando; rando++)
         {
+       
             answer = answer * i;
+            // loops to find the factorial of the random value 
 
         }
         cout << "What is the factorial of " << rando << "?" << endl;
@@ -881,12 +954,14 @@ void Mathematics::Factorials()
                 cout << "Wow! Great job! Here are two points for you1 " << endl;
                 Scores[index] = Scores[index] + 2;
                 score = score + 2;
+                // more points for the user
             }
             else
             {
                 cout << "Nice, here is a point!" << endl;
                 Scores[index] = Scores[index] + 1;
                 score = score + 1;
+                // one point for the user
 
             }
         }
@@ -906,6 +981,7 @@ void Mathematics::Factorials()
     cin >> file;
     ofstream myfile;
     myfile.open(file);
+    // saving progress
     if (myfile.is_open())
     {
         for (int z=0; z< int(Names.size()); z++)
@@ -934,6 +1010,8 @@ void Mathematics::Factorials()
 
 
 }
+
+// Imports questions and answers of a textbook from a text file to vectors
 
 
 void Mathematics::Import()
